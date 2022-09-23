@@ -1,6 +1,4 @@
 const axios = require('axios');
-const M3U8FileParser = require('m3u8-file-parser');
-const m3u8Parser = new M3U8FileParser();
 
 const getRemoteFile = async(url) => {
     try {
@@ -119,25 +117,25 @@ const getInfo = async({ url }) => {
             formats: formats.filter(format => format.url)
         };
 
-        if (result.videoDetails.isLiveContent) {
-            try {
-                let m3u8Link = resoleM3U8Link(response.data);
-                if (m3u8Link) {
-                    let m3u8FileContent = await getRemoteFile(m3u8Link);
+        // if (result.videoDetails.isLiveContent) {
+        //     try {
+        //         let m3u8Link = resoleM3U8Link(response.data);
+        //         if (m3u8Link) {
+        //             let m3u8FileContent = await getRemoteFile(m3u8Link);
 
-                    m3u8Parser.read(m3u8FileContent);
+        //             m3u8Parser.read(m3u8FileContent);
 
-                    result.liveData = {
-                        manifestUrl: m3u8Link,
-                        data: m3u8Parser.getResult()
-                    };
+        //             result.liveData = {
+        //                 manifestUrl: m3u8Link,
+        //                 data: m3u8Parser.getResult()
+        //             };
 
-                    m3u8Parser.reset();
-                }
-            } catch (e) {
-                //Do nothing here
-            }
-        }
+        //             m3u8Parser.reset();
+        //         }
+        //     } catch (e) {
+        //         //Do nothing here
+        //     }
+        // }
 
         return result;
     } catch (e) {
